@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home - Healthy Meal Planner{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>Welcome to Healthy Meal Planner</h1>
+    <p>Plan your meals with ease and stay on track with your health goals.</p>
+    <a href="{% url 'filter_recipe' %}" class="btn btn-primary-custom">Get Started</a>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card meal-card">
+            <img src='{% static "images/Healthy_Breakfast_350x200.png" %}' class="card-img-top" alt="Meal Image">
+            <div class="card-body">
+                <h5 class="card-title">Healthy Breakfast</h5>
+                <p class="card-text">Start your day with a nutritious and balanced breakfast.</p>
+                <a href="#" class="btn btn-primary-custom">View Plan</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card meal-card">
+            <img src='{% static "images/Nutritious_Lunch_350x200.png" %}' class="card-img-top" alt="Meal Image">
+            <div class="card-body">
+                <h5 class="card-title">Nutritious Lunch</h5>
+                <p class="card-text">Enjoy a healthy lunch to keep your energy levels up.</p>
+                <a href="#" class="btn btn-primary-custom">View Plan</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card meal-card">
+            <img src='{% static "images/Delicious_Dinner_350x200.png" %}' class="card-img-top" alt="Meal Image">
+            <div class="card-body">
+                <h5 class="card-title">Delicious Dinner</h5>
+                <p class="card-text">End your day with a wholesome and satisfying dinner.</p>
+                <a href="#" class="btn btn-primary-custom">View Plan</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
