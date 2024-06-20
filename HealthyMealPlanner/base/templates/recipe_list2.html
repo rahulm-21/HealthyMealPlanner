@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Recipe List - Healthy Meal Planner{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>Recipe List</h1>
+    </div>
+    
+    <!-- Filter Form -->
+    <form method="get" action="{% url 'recipe_list' %}">
+        <div class="form-group">
+            <label for="name">Recipe Name:</label>
+            <input type="text" name="name" id="name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="recipe_type">Recipe Type:</label>
+            <select name="recipe_type" id="recipe_type" class="form-control">
+                <option value="">Any</option>
+                <option value="veg">Vegetarian</option>
+                <option value="non_veg">Non-Vegetarian</option>
+                <option value="vegan">Vegan</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="meal_type">Meal Type:</label>
+            <select name="meal_type" id="meal_type" class="form-control">
+                <option value="">Any</option>
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="total_fat_min">Total Fat Min (g):</label>
+            <input type="number" name="total_fat_min" id="total_fat_min" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="total_fat_max">Total Fat Max (g):</label>
+            <input type="number" name="total_fat_max" id="total_fat_max" class="form-control">
+        </div>
+        <!-- Add more filters as needed -->
+        
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+    
+    <div class="row">
+        {% for recipe in recipes %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.name }}</h5>
+                        <p class="card-text">{{ recipe.recipe_type }}</p>
+                        <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-primary">View Recipe</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'add_recipe' %}" class="btn btn-primary-custom">Add New Recipe</a>
+</div>
+{% endblock %}

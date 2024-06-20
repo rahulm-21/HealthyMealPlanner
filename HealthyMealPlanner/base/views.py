@@ -12,8 +12,23 @@ import re
 def home(request):
     return render(request, 'home.html')
 
+def recipe_list(request):
+    recipes = Recipe.objects.all()
+    return render(request, 'recipe_list.html', {'recipes': recipes})
 
+def recipe_detail(request, pk):
+    recipe = get_object_or_404(Recipe, pk=pk)
+    return render(request, 'recipe_detail.html', {'recipe': recipe})
 
+def add_recipe(request):
+    if request.method == "POST":
+        form = RecipeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('recipe_list')
+    else:
+        form = RecipeForm()
+    return render(request, 'add_recipe.html', {'form': form})
 
 def register(request):
     if request.method == 'POST':
@@ -48,7 +63,5 @@ def login_view(request):
     else:
         form = UserLoginForm()
     return render(request, 'login.html', {'form': form})    
-
-
 
 

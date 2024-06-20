@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Recipe Detail - Healthy Meal Planner{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>{{ recipe.name }}</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% if recipe.image_url %}
+                <img src="{{ recipe.image_url }}" class="img-fluid mb-4" alt="{{ recipe.name }}">
+            {% endif %}
+            <h3>Type: {{ recipe.get_recipe_type_display }}</h3>
+            <h4>Content:</h4>
+            <p>{{ recipe.recipe_content }}</p>
+            <h4>Ingredients:</h4>
+            <p>{{ recipe.ingredients|linebreaksbr }}</p>
+            <h4>Cooking Time:</h4>
+            <p>{{ recipe.cooking_hour }} hrs {{ recipe.cooking_minute }} mins</p>
+            
+            <h4>Nutritional Values:</h4>
+            <table class="table">
+                <tr>
+                    <th>Total Fat</th>
+                    <td>{{ recipe.total_fat }} g</td>
+                </tr>
+                <tr>
+                    <th>Saturated Fat</th>
+                    <td>{{ recipe.saturated_fat }} g</td>
+                </tr>
+                <tr>
+                    <th>Cholesterol</th>
+                    <td>{{ recipe.cholesterol }} mg</td>
+                </tr>
+                <tr>
+                    <th>Sodium</th>
+                    <td>{{ recipe.sodium }} mg</td>
+                </tr>
+                <tr>
+                    <th>Total Carbohydrate</th>
+                    <td>{{ recipe.total_carbohydrate }} g</td>
+                </tr>
+                <tr>
+                    <th>Dietary Fiber</th>
+                    <td>{{ recipe.dietary_fiber }} g</td>
+                </tr>
+                <tr>
+                    <th>Total Sugars</th>
+                    <td>{{ recipe.total_sugars }} g</td>
+                </tr>
+                <tr>
+                    <th>Protein</th>
+                    <td>{{ recipe.protein }} g</td>
+                </tr>
+                <tr>
+                    <th>Vitamin C</th>
+                    <td>{{ recipe.vitamin_c }} mg</td>
+                </tr>
+                <tr>
+                    <th>Calcium</th>
+                    <td>{{ recipe.calcium }} mg</td>
+                </tr>
+                <tr>
+                    <th>Iron</th>
+                    <td>{{ recipe.iron }} mg</td>
+                </tr>
+                <tr>
+                    <th>Potassium</th>
+                    <td>{{ recipe.potassium }} mg</td>
+                </tr>
+            </table>
+            
+            <a href="{% url 'recipe_list' %}" class="btn btn-primary mt-3">Back to Recipe List</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
