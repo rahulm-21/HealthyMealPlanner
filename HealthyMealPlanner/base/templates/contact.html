@@ -1,0 +1,26 @@
+<!-- contact.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Contact - Healthy Meal Planner{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>Contact Us</h1>
+        <p>Feel free to send us a message. We'll get back to you shortly!</p>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <img src="{% static 'images/circle2.png' %}" alt="Contact Image" class="img-fluid rounded" style="width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6">
+            <form method="post" class="needs-validation" novalidate>
+                {{form.as_p}}
+                <button type="submit" class="btn btn-primary-custom">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Recipe List - Healthy Meal Planner{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>Recipe List</h1>
+    </div>
+
+    <form method="get" class="mb-4">
+        <div class="row">
+            <div class="col-md-3">
+                <input type="text" name="name" class="form-control" placeholder="Name" value="{{ form.name.value }}">
+            </div>
+            <div class="col-md-2">
+                <select name="recipe_type" class="form-control">
+                    <option value="">All Types</option>
+                    {% for value, label in form.recipe_type.field.choices %}
+                        <option value="{{ value }}" {% if value == form.recipe_type.value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="meal_type" class="form-control">
+                    <option value="">All Meals</option>
+                    {% for value, label in form.meal_type.field.choices %}
+                        <option value="{{ value }}" {% if value == form.meal_type.value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="cooking_hour" class="form-control" placeholder="Cooking Hour" value="{{ form.cooking_hour.value }}">
+            </div>
+            <div class="col-md-2">
+                <select name="cooking_minute" class="form-control">
+                    <option value="">All Minutes</option>
+                    {% for value, label in form.cooking_minute.field.choices %}
+                        <option value="{{ value }}" {% if value == form.cooking_minute.value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        {% for recipe in recipes %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.name }}</h5>
+                        <p class="card-text">{{ recipe.recipe_type }}</p>
+                        <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-primary">View Recipe</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'add_recipe' %}" class="btn btn-primary-custom">Add New Recipe</a>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Recipe List - Healthy Meal Planner
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>Recipe List</h1>
+    </div>
+    <form method="get" action="">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>{{ form.as_table }}</td>
+                <td>
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div class="row mt-4">
+        {% for recipe in recipes %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.name }}</h5>
+                    <p class="card-text">{{ recipe.recipe_type }}</p>
+                    <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary">View Recipe</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
