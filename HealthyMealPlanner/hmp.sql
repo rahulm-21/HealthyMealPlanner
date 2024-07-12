@@ -97,7 +97,11 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (33, 'Can add profile', 9, 'add_profile'),
 (34, 'Can change profile', 9, 'change_profile'),
 (35, 'Can delete profile', 9, 'delete_profile'),
-(36, 'Can view profile', 9, 'view_profile');
+(36, 'Can view profile', 9, 'view_profile'),
+(37, 'Can add meal plan', 10, 'add_mealplan'),
+(38, 'Can change meal plan', 10, 'change_mealplan'),
+(39, 'Can delete meal plan', 10, 'delete_mealplan'),
+(40, 'Can view meal plan', 10, 'view_mealplan');
 
 -- --------------------------------------------------------
 
@@ -124,7 +128,9 @@ CREATE TABLE `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$720000$sIuXkOvhyzuGIdKhjSyd7O$TAWZime7rndWKJSAtLueqV9vAQdTfWR251xebu0v50c=', '2024-06-17 06:30:25.025322', 0, 'mollis@Nullainterdum.org', '', '', 'mollis@nullainterdum.org', 0, 1, '2024-06-17 06:30:22.799360');
+(1, 'pbkdf2_sha256$720000$sIuXkOvhyzuGIdKhjSyd7O$TAWZime7rndWKJSAtLueqV9vAQdTfWR251xebu0v50c=', '2024-06-17 06:30:25.025322', 0, 'mollis@Nullainterdum.org', '', '', 'mollis@nullainterdum.org', 0, 1, '2024-06-17 06:30:22.799360'),
+(2, 'pbkdf2_sha256$600000$fd9h73EWCB2ExddcxhW6yL$vUAahZ36qTat5PxadtoAGOz0427TUZxSfR0HUZhav+I=', '2024-06-26 06:31:57.686971', 0, 'SnCl0012', '', '', 'sd@me.mo', 0, 1, '2024-06-25 11:41:42.870839'),
+(3, 'pbkdf2_sha256$600000$dwDhtIJbGeyVkpxZHfliDZ$jUVuDyfSdnf6LK+oALTehuDnORgdUHOQp0ay5UKexAw=', '2024-06-26 12:35:01.672434', 0, 'John_Snow', '', '', 'john@qw.com', 0, 1, '2024-06-26 12:35:00.018452');
 
 -- --------------------------------------------------------
 
@@ -167,6 +173,46 @@ CREATE TABLE `base_contactmessage` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `base_mealplan`
+--
+
+CREATE TABLE `base_mealplan` (
+  `id` bigint(20) NOT NULL,
+  `date` date NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `base_mealplan`
+--
+
+INSERT INTO `base_mealplan` (`id`, `date`, `user_id`) VALUES
+(1, '2024-06-26', 2),
+(2, '2024-06-26', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `base_mealplan_recipes`
+--
+
+CREATE TABLE `base_mealplan_recipes` (
+  `id` bigint(20) NOT NULL,
+  `mealplan_id` bigint(20) NOT NULL,
+  `recipe_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `base_mealplan_recipes`
+--
+
+INSERT INTO `base_mealplan_recipes` (`id`, `mealplan_id`, `recipe_id`) VALUES
+(5, 1, 4),
+(6, 1, 7);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `base_profile`
 --
 
@@ -175,15 +221,22 @@ CREATE TABLE `base_profile` (
   `food_preference` varchar(10) NOT NULL,
   `allergic` tinyint(1) NOT NULL,
   `allergic_foods` longtext NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `age` int(10) UNSIGNED DEFAULT NULL CHECK (`age` >= 0),
+  `daily_calories` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`daily_calories`)),
+  `height` decimal(5,2) DEFAULT NULL,
+  `sex` varchar(1) NOT NULL,
+  `weight` decimal(5,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `base_profile`
 --
 
-INSERT INTO `base_profile` (`id`, `food_preference`, `allergic`, `allergic_foods`, `user_id`) VALUES
-(1, 'nonveg', 0, '', 1);
+INSERT INTO `base_profile` (`id`, `food_preference`, `allergic`, `allergic_foods`, `user_id`, `age`, `daily_calories`, `height`, `sex`, `weight`) VALUES
+(1, 'nonveg', 0, '', 1, NULL, '{}', NULL, '', NULL),
+(2, 'veg', 1, 'milk, cheese,', 2, 23, '{}', 5.50, 'O', 55.00),
+(3, 'vegan', 1, 'milk', 3, 29, '{}', 6.00, 'M', 70.00);
 
 -- --------------------------------------------------------
 
@@ -331,6 +384,7 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (2, 'auth', 'permission'),
 (4, 'auth', 'user'),
 (7, 'base', 'contactmessage'),
+(10, 'base', 'mealplan'),
 (9, 'base', 'profile'),
 (8, 'base', 'recipe'),
 (5, 'contenttypes', 'contenttype'),
@@ -374,7 +428,9 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (18, 'base', '0001_initial', '2024-06-17 04:12:14.830618'),
 (19, 'sessions', '0001_initial', '2024-06-17 04:12:14.858916'),
 (20, 'base', '0002_profile', '2024-06-17 05:23:58.523660'),
-(21, 'base', '0003_recipe_calcium_recipe_cholesterol_and_more', '2024-06-17 08:20:47.317768');
+(21, 'base', '0003_recipe_calcium_recipe_cholesterol_and_more', '2024-06-17 08:20:47.317768'),
+(22, 'base', '0004_profile_age_profile_daily_calories_profile_height_and_more', '2024-06-25 12:29:47.053340'),
+(23, 'base', '0005_mealplan', '2024-06-26 10:08:19.420516');
 
 -- --------------------------------------------------------
 
@@ -387,6 +443,14 @@ CREATE TABLE `django_session` (
   `session_data` longtext NOT NULL,
   `expire_date` datetime(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `django_session`
+--
+
+INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('7dlmrdkx0trm19yxdluci8ggeo9y6sav', 'e30:1sM5Ej:WzWOYgaC6xIax6X6rr73JNYw4hUiWJ0PNDtjtJCxqes', '2024-07-09 12:25:25.286306'),
+('eyq0b56vg5wsuehuztt13xbj55bkp8c3', '.eJxVjMEOwiAQRP-FsyGw3dbFo3e_gSwLSNW0SWlPxn-XJj1oMpeZNzNv5Xlbi99qWvwY1UV16vSbBZZnmnYQHzzdZy3ztC5j0HtFH7Tq2xzT63p0_w4K19LWLkpmJItiyAATnUUAc2rqTW6-ByLmPKBD7CCnkOIgYMB1Fi2B-nwB7ms3rA:1sMRrZ:UwV398bw5IF4tWVupkMXh_kJ22NWOD47fYUA0RFn9so', '2024-07-10 12:35:01.679429');
 
 --
 -- Indexes for dumped tables
@@ -442,6 +506,21 @@ ALTER TABLE `auth_user_user_permissions`
 --
 ALTER TABLE `base_contactmessage`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `base_mealplan`
+--
+ALTER TABLE `base_mealplan`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `base_mealplan_user_id_bc930cd2_fk_auth_user_id` (`user_id`);
+
+--
+-- Indexes for table `base_mealplan_recipes`
+--
+ALTER TABLE `base_mealplan_recipes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `base_mealplan_recipes_mealplan_id_recipe_id_ae8b5375_uniq` (`mealplan_id`,`recipe_id`),
+  ADD KEY `base_mealplan_recipes_recipe_id_8118ce44_fk_base_recipe_id` (`recipe_id`);
 
 --
 -- Indexes for table `base_profile`
@@ -504,13 +583,13 @@ ALTER TABLE `auth_group_permissions`
 -- AUTO_INCREMENT for table `auth_permission`
 --
 ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `auth_user`
 --
 ALTER TABLE `auth_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `auth_user_groups`
@@ -531,10 +610,22 @@ ALTER TABLE `base_contactmessage`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `base_mealplan`
+--
+ALTER TABLE `base_mealplan`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `base_mealplan_recipes`
+--
+ALTER TABLE `base_mealplan_recipes`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `base_profile`
 --
 ALTER TABLE `base_profile`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `base_recipe`
@@ -552,13 +643,13 @@ ALTER TABLE `django_admin_log`
 -- AUTO_INCREMENT for table `django_content_type`
 --
 ALTER TABLE `django_content_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Constraints for dumped tables
@@ -590,6 +681,19 @@ ALTER TABLE `auth_user_groups`
 ALTER TABLE `auth_user_user_permissions`
   ADD CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   ADD CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+
+--
+-- Constraints for table `base_mealplan`
+--
+ALTER TABLE `base_mealplan`
+  ADD CONSTRAINT `base_mealplan_user_id_bc930cd2_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+
+--
+-- Constraints for table `base_mealplan_recipes`
+--
+ALTER TABLE `base_mealplan_recipes`
+  ADD CONSTRAINT `base_mealplan_recipes_mealplan_id_5b1728e8_fk_base_mealplan_id` FOREIGN KEY (`mealplan_id`) REFERENCES `base_mealplan` (`id`),
+  ADD CONSTRAINT `base_mealplan_recipes_recipe_id_8118ce44_fk_base_recipe_id` FOREIGN KEY (`recipe_id`) REFERENCES `base_recipe` (`id`);
 
 --
 -- Constraints for table `base_profile`
