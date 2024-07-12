@@ -37,3 +37,8 @@ class UserLoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['height', 'weight', 'age', 'sex', 'food_preference', 'allergic', 'allergic_foods']
+

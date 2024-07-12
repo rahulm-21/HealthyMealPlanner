@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Progress{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Progress Tracking</h2>
+            <canvas id="caloriesChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('caloriesChart').getContext('2d');
+    var caloriesChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ profile.daily_calories.keys|safe }},
+            datasets: [{
+                label: 'Daily Calorie Intake',
+                data: {{ profile.daily_calories.values|safe }},
+                backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                borderColor: 'rgba(40, 167, 69, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

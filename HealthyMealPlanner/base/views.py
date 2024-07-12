@@ -65,3 +65,59 @@ def login_view(request):
     return render(request, 'login.html', {'form': form})    
 
 
+@login_required
+def profile_view(request):
+    profile = Profile.objects.get(user=request.user)
+    return render(request, 'profile.html', {'profile': profile})
+
+@login_required
+def profile_view(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'profile.html', {'form': form, 'profile': profile})
+
+@login_required
+def progress_view(request):
+    profile = Profile.objects.get(user=request.user)
+    return render(request, 'progress.html', {'profile': profile})
+
+@login_required
+def add_to_meal_plan(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    meal_plan, created = MealPlan.objects.get_or_create(user=request.user, date=date.today())
+    meal_plan.recipes.add(recipe)
+    return redirect('meal_plan')
+
+@login_required
+def meal_plan_view(request):
+    meal_plan = MealPlan.objects.filter(user=request.user, date=date.today()).first()
+    return render(request, 'meal_plan.html', {'meal_plan': meal_plan})
+
+@login_required
+def generate_grocery_list(request):
+    meal_plan = MealPlan.objects.filter(user=request.user, date=date.today()).first()
+    if not meal_plan:
+        return render(request, 'grocery_list.html', {'ingredients': {}})
+    
+    ingredients = []
+    for recipe in meal_plan.recipes.all():
+        for line in recipe.recipe_content.split(','):
+            ingredients.append(line)
+    print(ingredients)
+    return render(request, 'grocery_list.html', {'ingredients': ingredients})
+
+@login_required
+def remove_from_meal_plan(request, recipe_id):
+    meal_plan = MealPlan.objects.filter(user=request.user, date=date.today()).first()
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    
+    if meal_plan:
+        meal_plan.recipes.remove(recipe)
+    
+    return redirect('meal_plan')

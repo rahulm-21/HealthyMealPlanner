@@ -29,10 +29,32 @@ class Recipe(models.Model):
         super().save(*args, **kwargs)
 
 class Profile(models.Model):
+    SEX_CHOICES = [('M', 'Male'), ('F', 'Female'), ('O', 'Other')]
+    FOOD_PREFERENCES = [
+        ('veg', 'Vegetarian'),
+        ('nonveg', 'Non-Vegetarian'),
+        ('vegan', 'Vegan'),
+    ]
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    food_preference = models.CharField(max_length=10, choices=[('veg', 'Vegetarian'), ('nonveg', 'Non-Vegetarian'), ('vegan', 'Vegan')])
+    height = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True) 
+    weight = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
+    sex = models.CharField(max_length=1, choices=SEX_CHOICES, blank=True)
+    food_preference = models.CharField(max_length=10, choices=FOOD_PREFERENCES)
     allergic = models.BooleanField(default=False)
     allergic_foods = models.TextField(blank=True)
+    daily_calories = models.JSONField(default=dict, blank=True)  
 
     def __str__(self):
         return self.user.username
+
+
+class MealPlan(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    recipes = models.ManyToManyField(Recipe)
+    date = models.DateField()
+
+    def __str__(self):
+        return f"{self.user.username}'s meal plan for {self.date}"
+

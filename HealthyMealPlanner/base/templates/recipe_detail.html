@@ -73,6 +73,12 @@
             </table>
             
             <a href="{% url 'recipe_list' %}" class="btn btn-primary mt-3">Back to Recipe List</a>
+            
+            <!-- Add to Meal Plan Button -->
+            <form method="post" action="{% url 'add_to_meal_plan' recipe.pk %}" class="mt-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">Add to Meal Plan</button>
+            </form>
         </div>
     </div>
 </div>
