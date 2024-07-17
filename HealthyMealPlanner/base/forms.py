@@ -1,7 +1,8 @@
 from django import forms
-from .models import ContactMessage, Recipe
+from .models import ContactMessage, Recipe, Profile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
 
 class ContactForm(forms.ModelForm):
     class Meta:
@@ -12,6 +13,8 @@ class ContactForm(forms.ModelForm):
             "email":forms.TextInput(attrs= {'class': "form-control"}),
             "message": forms.TextInput(attrs= {'class': "form-control"}),
         }
+
+
 
 class RecipeForm(forms.ModelForm):
     class Meta:
@@ -32,6 +35,8 @@ class RecipeForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
+
+
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
     food_preference = forms.ChoiceField(choices=[('veg', 'Vegetarian'), ('nonveg', 'Non-Vegetarian'), ('vegan', 'Vegan')])
@@ -45,6 +50,7 @@ class UserRegisterForm(UserCreationForm):
 class UserLoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
+
 
 class RecipeFilterForm(forms.Form):
     name = forms.CharField(max_length=200, required=False)
@@ -78,6 +84,7 @@ class RecipeFilterFor_Nutritional_values(forms.Form):
     max_iron = forms.FloatField(required=False, label='Max Iron (mg)')
     min_potassium = forms.FloatField(required=False, label='Min Potassium (mg)')
     max_potassium = forms.FloatField(required=False, label='Max Potassium (mg)')
+
 
 class ProfileForm(forms.ModelForm):
     class Meta:

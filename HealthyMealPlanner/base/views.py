@@ -1,17 +1,17 @@
 from django.shortcuts import render, redirect
 from .forms import ContactForm
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Recipe
-from .forms import RecipeForm
+from .models import Recipe, Profile, MealPlan
+from .forms import RecipeForm, ProfileForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegisterForm, UserLoginForm,RecipeFilterFor_Nutritional_values,RecipeFilterForm
-
+from django.contrib.auth.decorators import login_required
+from datetime import date
 import re
 
 def home(request):
     return render(request, 'home.html')
-
 def about(request):
     return render(request, 'about.html')
 
@@ -80,6 +80,7 @@ def login_view(request):
     else:
         form = UserLoginForm()
     return render(request, 'login.html', {'form': form})    
+
 
 def filter_recipe(request):
     recipes = Recipe.objects.all()

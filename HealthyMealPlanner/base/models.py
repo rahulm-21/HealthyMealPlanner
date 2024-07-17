@@ -11,6 +11,8 @@ class ContactMessage(models.Model):
     def __str__(self):
         return f"{self.name} - {self.email}"
 
+ 
+
 class Recipe(models.Model):
     TYPE_CHOICES = [
         ('veg', 'Vegetarian'),
@@ -82,8 +84,8 @@ class Recipe(models.Model):
                 self.potassium = float(value)
 
     def __str__(self):
-        return self.name    
-
+        return self.name
+    
 class Profile(models.Model):
     SEX_CHOICES = [('M', 'Male'), ('F', 'Female'), ('O', 'Other')]
     FOOD_PREFERENCES = [

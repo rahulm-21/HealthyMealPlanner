@@ -22,4 +22,3 @@ urlpatterns = [
     path('generate_grocery_list/', views.generate_grocery_list, name='generate_grocery_list'),
     path('remove_from_meal_plan/<int:recipe_id>/', views.remove_from_meal_plan, name='remove_from_meal_plan'),
 ]
-
