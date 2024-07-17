@@ -17,11 +17,20 @@
         </div>
         <div class="col-md-6">
             <form method="post" class="needs-validation" novalidate>
-                {{form.as_p}}
-                <button type="submit" class="btn btn-primary-custom">Submit</button>
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.name.label_tag }} {{ form.name }}
+                </div>
+                <div class="mb-3">
+                    {{ form.email.label_tag }} {{ form.email }}
+                </div>
+                <div class="mb-3">
+                    {{ form.message.label_tag }}<br>
+                    {{ form.message }}
+                </div>
+                <button type="submit" class="btn btn-custom">Submit</button>
             </form>
         </div>
     </div>
 </div>
-
 {% endblock %}

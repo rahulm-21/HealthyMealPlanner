@@ -14,14 +14,17 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    // Ensure profile.daily_calories is passed as JSON safely
+    var dailyCalories = JSON.parse('{{ profile.daily_calories|escapejs }}');
+
     var ctx = document.getElementById('caloriesChart').getContext('2d');
     var caloriesChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: {{ profile.daily_calories.keys|safe }},
+            labels: Object.keys(dailyCalories),
             datasets: [{
                 label: 'Daily Calorie Intake',
-                data: {{ profile.daily_calories.values|safe }},
+                data: Object.values(dailyCalories),
                 backgroundColor: 'rgba(40, 167, 69, 0.2)',
                 borderColor: 'rgba(40, 167, 69, 1)',
                 borderWidth: 1

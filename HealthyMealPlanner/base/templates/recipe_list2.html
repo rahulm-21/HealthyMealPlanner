@@ -40,7 +40,7 @@
         </div>
         <!-- Add more filters as needed -->
         
-        <button type="submit" class="btn btn-primary">Filter</button>
+        <button type="submit" class="btn btn-custom">Filter</button>
     </form>
     
     <div class="row">
@@ -50,12 +50,12 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ recipe.name }}</h5>
                         <p class="card-text">{{ recipe.recipe_type }}</p>
-                        <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-primary">View Recipe</a>
+                        <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-custom">View Recipe</a>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
-    <a href="{% url 'add_recipe' %}" class="btn btn-primary-custom">Add New Recipe</a>
+    <a href="{% url 'add_recipe' %}" class="btn btn-custom">Add New Recipe</a>
 </div>
 {% endblock %}

@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}Recipe List - Healthy Meal Planner{% endblock %}
 {% block content %}
-<div class="container">
+<div class="container mt-5">
     <div class="header">
         <h1>Recipe List</h1>
     </div>
-    <div class="row">
+    
+    <div class="mt-4 text-center">
+        <a href="{% url 'add_recipe' %}" class="btn btn-custom">Add New Recipe</a>
+    </div>
+
+     <div class="mt-4 row">    
         {% for recipe in recipes %}
             <div class="col-md-4">
                 <div class="card mb-4">
@@ -21,14 +26,11 @@
                         <p class="card-text">
                             <strong>Ingredients:</strong> {{ recipe.recipe_content|linebreaksbr }}
                         </p>
-                        <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-primary">View Recipe</a>
+                        <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-custom">View Recipe</a>
                     </div>
                 </div>
             </div>
         {% endfor %}
-    </div>
-    <div class="text-center">
-        <a href="{% url 'add_recipe' %}" class="btn btn-primary-custom mt-4">Add New Recipe</a>
     </div>
 </div>
 {% endblock %}

@@ -1,4 +1,3 @@
-<!-- base html page -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Healthy Meal Planner{% endblock %}</title>
     {% load static %}
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -19,11 +17,26 @@
         .navbar {
             background-color: #28a745;
         }
-        .navbar-brand, .navbar-nav .nav-link {
-            color: #fff !important;
+        .navbar-brand img {
+            height: 150px; /* Set logo height */
+            width: auto;
+            margin-top: -10px; /* Adjust this value to move the logo upwards */
         }
+        .navbar-nav .nav-link {
+            color: #fff !important;
+            background-color: #4CAF50; /* Green background */
+            padding: 5px 10px; /* Padding to make it look like a button */
+            border-radius: 5px; /* Rounded corners */
+            margin: 0 5px; /* Margin between buttons */
+            transition: background-color 0.3s ease; /* Smooth hover effect */
+        }
+        .navbar-nav .nav-link:hover {
+            background-color: #a57e00 !important; /* Darker green on hover */
+            color: #fff !important; /* Change the text color on hover */
+        }
+        
         .navbar-nav .nav-link.active {
-            background-color: #fff;
+            background-color: #fff !important;
             color: #28a745 !important;
             border-radius: 20px;
         }
@@ -38,18 +51,27 @@
             background-position: center;
         }
         .header h1 {
-            color: #28a745;
+            color: #037089;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 8px; 
+            border-radius: 5px; 
         }
         .header p {
-            color: #6c757d;
+            color: #a57e00;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px; 
+            border-radius: 3px;
+            text-shadow: 2px 2px 4px rgba(67, 131, 37, 1.2); 
         }
-        .btn-primary-custom {
-            background-color: #28a745;
-            border-color: #28a745;
+        .btn-custom, .btn-custom:focus, .btn-custom:active {
+            background-color: #4CAF50 !important; /* Custom green background */
+            color: white !important; /* White text */
+            border: none !important; /* Remove border */
         }
-        .btn-primary-custom:hover {
-            background-color: #218838;
-            border-color: #1e7e34;
+        .btn-custom:hover, .btn-custom:focus:hover, .btn-custom:active:hover {
+            background-color: #a57e00 !important; /* Darker green on hover */
+            color: #fff !important; /* Change the text color on hover */
         }
         .meal-card {
             border-radius: 20px;
@@ -78,70 +100,134 @@
             object-fit: cover;
             margin: 20px;
         }
+        .navbar-nav.ms-auto {
+            margin-left: auto;
+        }
+        .top-navbar {
+            background-color: #28a745;
+            display: flex;
+            align-items: center;
+            height: 50%;
+        }
+        .logo-navbar {
+            background-color: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 150px; /* Adjust height as needed */
+            width: 150px;
+        }
+        .main-navbar {
+            background-color: #28a745;
+            display: flex;
+            align-items: center;
+            height: 50%;
+        }
+        .nav-container {
+            display: flex;
+            width: 100%;
+        }
+        .nav-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+        }
+        .bottom-navbar .navbar-nav {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .nav-divider {
+            width: 4px;
+            height: 30px;
+            background-color: #ffffff; /* Adjust the color as needed */
+             margin: auto 15px;
+}
     </style>
 </head>
 <body>
+    <div class="nav-container">
+        <nav class="navbar logo-navbar">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/logo.png' %}" alt="Healthy Meal Planner">
+            </a>
+        </nav>
 
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'home' %}">Healthy Meal Planner</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'about' %}">About</a>
-                    </li> 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'recipe_list' %}">Recipe List</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'filter_recipe' %}">Filter by Type</a>
-                    </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'recipe_FilterFor_Nutritional_values' %}">Filter by Nutritional Values</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'meal_plan' %}">Meal Plan</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'register' %}">Register</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+        <div class="nav-right">
+            <nav class="navbar navbar-expand-lg top-navbar">
+                <div class="container-fluid">
+                    <ul class="navbar-nav ms-auto">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'meal_plan' %}">Meal Plan</a>
+                            </li>
+                            <li class="nav-item">
+                                <form method="post" action="{% url 'logout' %}" class="nav-link">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-link btn-custom" style="padding: 0; margin: 0;">Logout</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'register' %}">Register</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+
+            <nav class="navbar navbar-expand-lg main-navbar bottom-navbar">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto"> <!-- Change this line -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'recipe_list' %}">Recipe List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'filter_recipe' %}">Filter by Type</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'recipe_FilterFor_Nutritional_values' %}">Filter by Nutritional Values</a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="nav-divider"></div> <!-- Custom Divider -->
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'home' %}">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'about' %}">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
-    </nav>
-<div class="container content">
-    {% block content %}
-    {% endblock %}
-</div>
+    </div>
 
-<div class="footer">
-    <p>&copy; 2024 Healthy Meal Planner. All rights reserved.</p>
-    {% if user.is_authenticated %}
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="nav-link btn btn-link" style="display: inline; padding: 0; margin: 0;">Logout</button>
-        </form>
-    {% endif %}
-</div>
+    <div class="container content">
+        {% block content %}
+        {% endblock %}
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="footer">
+        <p>&copy; 2024 Healthy Meal Planner. All rights reserved.</p>
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+            </form>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

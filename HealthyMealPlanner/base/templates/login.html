@@ -5,10 +5,12 @@
     <div class="header">
         <h1>Login</h1>
     </div>
+    <div class="row mt-3"></div>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-custom">Login</button>
+        <div class="row mt-3"></div>
     </form>
     {% if error %}
         <p class="text-danger">{{ error }}</p>
