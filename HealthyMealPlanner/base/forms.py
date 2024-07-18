@@ -21,7 +21,7 @@ class RecipeForm(forms.ModelForm):
         model = Recipe
         fields = [
             'name', 'recipe_type', 'recipe_content', 'nutrients', 
-            'cooking_hour', 'cooking_minute', 'meal_type', 'image_url', 'description'
+            'cooking_hour', 'cooking_minute', 'meal_type', 'image_url', 
         ]
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -32,7 +32,7 @@ class RecipeForm(forms.ModelForm):
             'cooking_minute': forms.NumberInput(attrs={'class': 'form-control'}),
             'meal_type': forms.Select(attrs={'class': 'form-control'}),
             'image_url': forms.URLInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            # 'description': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
 

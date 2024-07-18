@@ -13,10 +13,11 @@
                 <img src="{{ recipe.image_url }}" class="img-fluid mb-4" alt="{{ recipe.name }}">
             {% endif %}
             <h3>Type: {{ recipe.get_recipe_type_display }}</h3>
-            <h4>Content:</h4>
-            <p>{{ recipe.recipe_content }}</p>
+            <!-- <h4>Content:</h4> -->
+            <!-- <p>{{ recipe.ingredients|linebreaksbr }}</p> -->
+           
             <h4>Ingredients:</h4>
-            <p>{{ recipe.ingredients|linebreaksbr }}</p>
+            <p>{{ recipe.recipe_content }}</p>
             <h4>Cooking Time:</h4>
             <p>{{ recipe.cooking_hour }} hrs {{ recipe.cooking_minute }} mins</p>
             
